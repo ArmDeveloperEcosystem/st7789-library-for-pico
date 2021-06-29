@@ -27,3 +27,4 @@ target_link_libraries(pico_st7789 INTERFACE pico_stdlib hardware_spi)
 
 add_subdirectory("examples/st7789_blink")
 add_subdirectory("examples/st7789_random")
+add_subdirectory("examples/st7789_random_rows")

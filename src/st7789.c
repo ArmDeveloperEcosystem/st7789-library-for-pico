@@ -174,6 +174,8 @@ void st7789_fill(uint16_t pixel)
 {
     int num_pixels = st7789_width * st7789_height;
 
+    st7789_set_cursor(0, 0);
+
     for (int i = 0; i < num_pixels; i++) {
         st7789_put(pixel);
     }

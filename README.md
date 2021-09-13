@@ -41,7 +41,7 @@ See [examples](examples/) folder.
 ## Cloning
 
 ```sh
-git clone https://github.com/ArmDeveloperEcosystem/st7798-library-for-pico.git 
+git clone https://github.com/ArmDeveloperEcosystem/st7789-library-for-pico.git 
 ```
 
 ## Building

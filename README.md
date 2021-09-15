@@ -60,6 +60,10 @@ make
 ```
 4. Copy example `.uf2` to Pico when in BOOT mode.
 
+## License
+
+[Apache-2.0 License](LICENSE)
+
 ---
 
 Disclaimer: This is not an official Arm product.

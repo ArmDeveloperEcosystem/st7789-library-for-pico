@@ -93,10 +93,11 @@ void st7789_init(const struct st7789_config* config, uint16_t width, uint16_t he
     gpio_put(st7789_cfg.gpio_cs, 1);
     gpio_put(st7789_cfg.gpio_dc, 1);
     gpio_put(st7789_cfg.gpio_rst, 1);
+    sleep_ms(100);
     
     // SWRESET (01h): Software Reset
     st7789_cmd(0x01, NULL, 0);
-    sleep_ms(100);
+    sleep_ms(150);
 
     // SLPOUT (11h): Sleep Out
     st7789_cmd(0x11, NULL, 0);

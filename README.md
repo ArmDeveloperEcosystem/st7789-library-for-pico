@@ -21,7 +21,7 @@ Use an ST7789 based TFT LCD display with your [Raspberry Pi Pico](https://www.ra
 |---------+-------------------|
 |   SCK   |      GPIO18       |
 |---------+-------------------|
-|   MISO  |      GPIO19       |
+|   MOSI  |      GPIO19       |
 |---------+-------------------|
 |   CS    |      GPIO17       |
 |---------+-------------------|

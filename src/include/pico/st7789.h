@@ -14,7 +14,7 @@ struct st7789_config {
     spi_inst_t* spi;
     uint gpio_din;
     uint gpio_clk;
-    uint gpio_cs;
+    int gpio_cs;
     uint gpio_dc;
     uint gpio_rst;
     uint gpio_bl;

@@ -33,6 +33,8 @@ Use an ST7789 based TFT LCD display with your [Raspberry Pi Pico](https://www.ra
 
 GPIO pins are configurable in examples or API.
 
+`CS` can be set to `-1` if your display has the CS pin grounded.
+
 ## Examples
 
 See [examples](examples/) folder.

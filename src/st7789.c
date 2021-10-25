@@ -18,11 +18,17 @@ static bool st7789_data_mode = false;
 
 static void st7789_cmd(uint8_t cmd, const uint8_t* data, size_t len)
 {
-    spi_set_format(st7789_cfg.spi, 8, SPI_CPOL_0, SPI_CPHA_0, SPI_MSB_FIRST);
+    if (st7789_cfg.gpio_cs > -1) {
+        spi_set_format(st7789_cfg.spi, 8, SPI_CPOL_0, SPI_CPHA_0, SPI_MSB_FIRST);
+    } else {
+        spi_set_format(st7789_cfg.spi, 8, SPI_CPOL_1, SPI_CPHA_1, SPI_MSB_FIRST);
+    }
     st7789_data_mode = false;
 
     sleep_us(1);
-    gpio_put(st7789_cfg.gpio_cs, 0);
+    if (st7789_cfg.gpio_cs > -1) {
+        gpio_put(st7789_cfg.gpio_cs, 0);
+    }
     gpio_put(st7789_cfg.gpio_dc, 0);
     sleep_us(1);
     
@@ -37,7 +43,9 @@ static void st7789_cmd(uint8_t cmd, const uint8_t* data, size_t len)
     }
 
     sleep_us(1);
-    gpio_put(st7789_cfg.gpio_cs, 1);
+    if (st7789_cfg.gpio_cs > -1) {
+        gpio_put(st7789_cfg.gpio_cs, 1);
+    }
     gpio_put(st7789_cfg.gpio_dc, 1);
     sleep_us(1);
 }
@@ -75,22 +83,32 @@ void st7789_init(const struct st7789_config* config, uint16_t width, uint16_t he
     st7789_height = height;
 
     spi_init(st7789_cfg.spi, 125 * 1000 * 1000);
-    spi_set_format(st7789_cfg.spi, 8, SPI_CPOL_0, SPI_CPHA_0, SPI_MSB_FIRST);
+    if (st7789_cfg.gpio_cs > -1) {
+        spi_set_format(st7789_cfg.spi, 8, SPI_CPOL_0, SPI_CPHA_0, SPI_MSB_FIRST);
+    } else {
+        spi_set_format(st7789_cfg.spi, 8, SPI_CPOL_1, SPI_CPHA_1, SPI_MSB_FIRST);
+    }
 
     gpio_set_function(st7789_cfg.gpio_din, GPIO_FUNC_SPI);
     gpio_set_function(st7789_cfg.gpio_clk, GPIO_FUNC_SPI);
 
-    gpio_init(st7789_cfg.gpio_cs);
+    if (st7789_cfg.gpio_cs > -1) {
+        gpio_init(st7789_cfg.gpio_cs);
+    }
     gpio_init(st7789_cfg.gpio_dc);
     gpio_init(st7789_cfg.gpio_rst);
     gpio_init(st7789_cfg.gpio_bl);
 
-    gpio_set_dir(st7789_cfg.gpio_cs, GPIO_OUT);
+    if (st7789_cfg.gpio_cs > -1) {
+        gpio_set_dir(st7789_cfg.gpio_cs, GPIO_OUT);
+    }
     gpio_set_dir(st7789_cfg.gpio_dc, GPIO_OUT);
     gpio_set_dir(st7789_cfg.gpio_rst, GPIO_OUT);
     gpio_set_dir(st7789_cfg.gpio_bl, GPIO_OUT);
 
-    gpio_put(st7789_cfg.gpio_cs, 1);
+    if (st7789_cfg.gpio_cs > -1) {
+        gpio_put(st7789_cfg.gpio_cs, 1);
+    }
     gpio_put(st7789_cfg.gpio_dc, 1);
     gpio_put(st7789_cfg.gpio_rst, 1);
     sleep_ms(100);
@@ -139,7 +157,9 @@ void st7789_init(const struct st7789_config* config, uint16_t width, uint16_t he
 void st7789_ramwr()
 {
     sleep_us(1);
-    gpio_put(st7789_cfg.gpio_cs, 0);
+    if (st7789_cfg.gpio_cs > -1) {
+        gpio_put(st7789_cfg.gpio_cs, 0);
+    }
     gpio_put(st7789_cfg.gpio_dc, 0);
     sleep_us(1);
 
@@ -148,7 +168,9 @@ void st7789_ramwr()
     spi_write_blocking(st7789_cfg.spi, &cmd, sizeof(cmd));
 
     sleep_us(1);
-    gpio_put(st7789_cfg.gpio_cs, 0);
+    if (st7789_cfg.gpio_cs > -1) {
+        gpio_put(st7789_cfg.gpio_cs, 0);
+    }
     gpio_put(st7789_cfg.gpio_dc, 1);
     sleep_us(1);
 }
@@ -158,7 +180,11 @@ void st7789_write(const void* data, size_t len)
     if (!st7789_data_mode) {
         st7789_ramwr();
 
-        spi_set_format(st7789_cfg.spi, 16, SPI_CPOL_0, SPI_CPHA_0, SPI_MSB_FIRST);
+        if (st7789_cfg.gpio_cs > -1) {
+            spi_set_format(st7789_cfg.spi, 16, SPI_CPOL_0, SPI_CPHA_0, SPI_MSB_FIRST);
+        } else {
+            spi_set_format(st7789_cfg.spi, 16, SPI_CPOL_1, SPI_CPHA_1, SPI_MSB_FIRST);
+        }
 
         st7789_data_mode = true;
     }
